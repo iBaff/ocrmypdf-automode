@@ -1,0 +1,23 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Interactive Docker Shell",
+            "type": "shell",
+            "command": "docker run -it --entrypoint bash -v \"$(pwd)\"/test-input:/ocr-in -v \"$(pwd)\"/test-output:/ocr-out ocrmypdf-automode"
+        },
+        {
+            "label": "Deamonized Docker",
+            "type": "shell",
+            "command": "docker run -d -v \"$(pwd)\"/test-input:/ocr-in -v \"$(pwd)\"/test-output:/ocr-out ocrmypdf-automode"
+        },
+        {
+            "label": "Build Docker File",
+            "type": "shell",
+            "command": "docker image build -t ocrmypdf-automode .",
+            "group": "build"
+        }
+    ]
+}
