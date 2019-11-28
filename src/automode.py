@@ -51,6 +51,7 @@ signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
 last_file_name = ''
+process_list = [] # ToDo: Save process id and filename to later check returncode
 
 try:
     while(run):
@@ -76,8 +77,8 @@ try:
                     file_in.as_posix(),
                     file_out.as_posix()
                 ])
-                print('Return Code:' + str(ocr.returncode))
-                print(ocr.returncode)
+                # print('Return Code:' + str(ocr.returncode))
+                # print(ocr.returncode)
 except ValueError as err:
     pass
 finally:
