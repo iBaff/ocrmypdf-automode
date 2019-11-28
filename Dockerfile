@@ -1,18 +1,15 @@
 # ToDo: Comment
 FROM jbarlow83/ocrmypdf
+# install python3 inotify_simple
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-distutils
+RUN pip3 install inotify_simple
 
-# Folder watch config for incron
-COPY ./src/10-ocr-watch /etc/incron.d/10-ocr-watch
-
-# Make empty folders in case no mount is provided
-RUN mkdir /ocr-in /ocr-out
 # Make alias for later usage with my settings and languages german and english.
 RUN echo 'alias ocrmypdf-eng-deu="ocrmypdf --optimize 1 -l deu+eng --clean --deskew --rotate-pages"' >> ~/.bashrc
 
-# install incron
-RUN apt-get install -y incron
-# Add current user to incron
-RUN echo 'root' >> /etc/incron.allow
+COPY src/ /app/
 
-# ENTRYPOINT ["/usr/bin/sh", "-c"]
-# CMD ["/usr/sbin/incrond; while true; do sleep 1; done"]
+# -u (https://stackoverflow.com/a/29745541/1781686)
+ENTRYPOINT ["/usr/bin/python3", "-u"]
+CMD ["/app/automode.py"]
